@@ -1,0 +1,23 @@
+{% extends "issues/index.html" %}
+{% load static %}
+{% block crumb %}
+  <li class="breadcrumb-item"><a href="{% url 'issues:list-issues' %}">Home</a></li>
+  <li class="breadcrumb-item active" aria-current="page">New Issue</li>
+{% endblock crumb %}
+{% block content %}
+  <form class="mb-4" method="post" id="form">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+      {{field.label_tag}}
+      {{field}}
+    </div>
+    {% endfor %}
+    <input type="submit" class="btn btn-primary" name="submit">
+  </form>
+  {% if form_valid %}
+  <div class="alert alert-success">
+    form submitted successfully!
+  </div>
+  {% endif %}
+{% endblock content %}
