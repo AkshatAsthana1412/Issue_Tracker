@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Issue Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+  <div class="container">
+    <header>
+      <h2>Issue Tracker <small class="text-muted" >by Akshat Asthana</small></h2>
+      <nav  class="mb-4" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          {% block crumb %}
+          <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'issues:list-issues' %}">Home</a></li>
+          {% endblock crumb %}
+        </ol>
+      </nav>
+    </header>
+    <section class="jumbotron">
+      {% block content %}
+      <a href="{% url 'issues:new-issue' %}" class="btn btn-primary mt-0 mb-4">New Issue</a>
+      <ul class="list-group">
+      {% if issues %}
+        {% for issue in issues %}
+          <li class="list-group-item">
+            <h4>ID: {{issue.id}}</h4>
+            <h3>{{issue.issue_desc}}</h3>
+            <small>{{issue.issue_assigned_to}}</small>
+            <small>{{issue.issue_priority}}</small>
+            <p></p>
+            <a class="btn btn-danger" href="{% url 'issues:delete-issue' issue.id %}">Delete</a>
+            <a class="btn btn-warning close-button">Close</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <p class='alert alert-warning py-2 px-2'>No issues</p>
+      {% endif %}
+      {% endblock content %}
+    </section>
+    <footer><p>&copy;AkshatAsthanaInc</p></footer>
+  </div>
+  <script src="{% static 'issues/form_submit.js' %}"></script>
+  </body>
+</html>
